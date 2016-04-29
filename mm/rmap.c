@@ -979,9 +979,9 @@ void page_move_anon_rmap(struct page *page,
 
 /**
  * __page_set_anon_rmap - set up new anonymous rmap
- * @page:	Page to add to rmap	
+ * @page:	Page to add to rmap
  * @vma:	VM area to add page to.
- * @address:	User virtual address of the mapping	
+ * @address:	User virtual address of the mapping
  * @exclusive:	the page is exclusively owned by the current process
  */
 static void __page_set_anon_rmap(struct page *page,
@@ -1661,7 +1661,7 @@ int try_to_unmap(struct page *page, enum ttu_flags flags,
 	VM_BUG_ON(!PageHuge(page) && PageTransHuge(page));
 
 	if (unlikely(PageKsm(page)))
-		ret = try_to_unmap_ksm(page, flags, vma);
+		ret = try_to_unmap_ksm(page, flags);
 	else if (PageAnon(page))
 		ret = try_to_unmap_anon(page, flags, vma);
 	else
@@ -1691,7 +1691,7 @@ int try_to_munlock(struct page *page)
 	VM_BUG_ON(!PageLocked(page) || PageLRU(page));
 
 	if (unlikely(PageKsm(page)))
-		return try_to_unmap_ksm(page, TTU_MUNLOCK, NULL);
+		return try_to_unmap_ksm(page, TTU_MUNLOCK);
 	else if (PageAnon(page))
 		return try_to_unmap_anon(page, TTU_MUNLOCK, NULL);
 	else
